@@ -6,10 +6,10 @@ function App() {
 
   return (
     <>
+      <BeakerIcon className=''/>
       <div className="bg-crimson w-full h-screen flex flex-col justify-center items-center">
-        <h1>My First Login Web</h1> <BeakerIcon className="size-6 text-blue-500" />
+        <TrueFocus sentence="Mi Primer Login" manualMode={true} blurAmount={5} borderColor="red" animationDuration={0.4} pauseBetweenAnimations={1}/>
         <p>Welcome to my first login web application built with React! xd</p>
-        <TrueFocus sentence="True Focus" manualMode={true} blurAmount={5} borderColor="red" animationDuration={2} pauseBetweenAnimations={1}/>
       </div>
     </>
   )
