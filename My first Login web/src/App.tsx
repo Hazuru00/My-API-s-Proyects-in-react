@@ -1,4 +1,5 @@
 import './App.css'
+import { TrueFocus } from './components/TrueFocus.jsx'
 import { BeakerIcon } from '@heroicons/react/24/solid'
 
 function App() {
