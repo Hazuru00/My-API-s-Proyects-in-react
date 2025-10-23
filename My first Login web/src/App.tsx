@@ -1,15 +1,21 @@
 import './App.css'
+import { ThemeProvider } from "./components/theme-provider"
 import TrueFocus from './components/TrueFocus';
-import { BeakerIcon } from '@heroicons/react/24/solid'
-
+  //import { BeakerIcon } from '@heroicons/react/24/solid'
+  // <BeakerIcon className=''/>
 function App() {
 
   return (
     <>
-      <BeakerIcon className=''/>
-      <div className="bg-crimson w-full h-screen flex flex-col justify-center items-center">
-        <TrueFocus sentence="Mi Primer Login" manualMode={true} blurAmount={5} borderColor="red" animationDuration={0.4} pauseBetweenAnimations={1}/>
-        <p>Welcome to my first login web application built with React! xd</p>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        {children}
+      </ThemeProvider>
+
+      <div>
+        <div className="bg-crimson w-full h-screen flex flex-col justify-center items-center">
+          <TrueFocus sentence="Mi Primer Login" manualMode={true} blurAmount={5} borderColor="#d62abf" animationDuration={0.4} pauseBetweenAnimations={1}/><br/>
+          <p>Welcome to my first login web application built with React! xd</p>
+        </div>
       </div>
     </>
   )
