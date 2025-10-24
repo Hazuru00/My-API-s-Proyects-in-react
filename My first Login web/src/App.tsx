@@ -13,11 +13,13 @@ function App() {
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         {
         <>
-        <nav className='bg-gray-900 p-4'>
-          <LetterGlitch glitchColors={ ['#2b4539', '#61dca3', '#61b3dc'] } glitchSpeed={50} centerVignette={true} outerVignette={false} smooth={true} characters='ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789'/>
+        <nav className='bg-gray-920 p-4 h-10'>
 
           <ModeToggle />
+          <br />
+
         </nav>
+          <LetterGlitch glitchColors={ ['#2b4539', '#61dca3', '#61b3dc'] } glitchSpeed={50} centerVignette={true} outerVignette={false} smooth={true} characters='ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789'/>
           <div>
             <div className="bg-crimson w-full h-screen flex flex-col justify-center items-center">
               <TrueFocus sentence="Mi Primer Login" manualMode={false} blurAmount={5} borderColor="pink-500" animationDuration={0.4} pauseBetweenAnimations={1}/><br/>
