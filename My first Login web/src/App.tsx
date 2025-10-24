@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css'
 import { ModeToggle } from './components/mode-toggle';
 import { ThemeProvider } from "./components/theme-provider"
@@ -6,16 +7,25 @@ import LetterGlitch from './components/LetterGlitch.tsx';
 // EditableSection and ParallaxWrapper are available if needed later
 // (currently not used) - keeping imports commented to avoid lint warnings.
 import AnimationBuilder from './components/EditableSection';
+import AnimationStudio from './pages/AnimationStudio';
 // import ParallaxWrapper from './components/ParallaxWrapper';
 import ParallaxSection from './components/ParallaxSection';
 
   //import { BeakerIcon } from '@heroicons/react/24/solid'
   // <BeakerIcon className=''/>
 function App() {
+  const [showStudio, setShowStudio] = React.useState(false);
+  React.useEffect(()=>{
+    const onOpen = ()=> setShowStudio(true);
+  const handler = ()=> onOpen();
+  window.addEventListener('open-animation-studio', handler as EventListener);
+  return ()=> window.removeEventListener('open-animation-studio', handler as EventListener);
+  }, []);
 
   return (
     <>
-      <AnimationBuilder/>
+  <AnimationBuilder/>
+  {showStudio ? <AnimationStudio onClose={()=>setShowStudio(false)} /> : null}
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       {
         <>

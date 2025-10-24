@@ -160,3 +160,22 @@
 .animation-builder input[type="range"] { width: 100%; }
 .animation-builder input[type="color"] { padding: 0; height: 28px; }
 .animation-builder .relative > div { transition: transform .3s ease, opacity .2s ease; }
+
+/* Crimson editor theme for a rosy/carmesí accent */
+.editor-crimson {
+  --editor-bg: #1b0b0e; /* very dark */
+  --editor-foreground: #ffeef0;
+  --editor-accent: #d43b5a; /* carmesí rosaceo */
+  background: var(--editor-bg) !important;
+  color: var(--editor-foreground) !important;
+}
+.editor-crimson .text-lg, .editor-crimson h3 { color: var(--editor-accent) !important; }
+.editor-crimson .timeline { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.06); }
+.editor-crimson select, .editor-crimson input { background: rgba(255,255,255,0.02); color: var(--editor-foreground); border: 1px solid rgba(255,255,255,0.06); }
+
+/* Studio layout helpers */
+.animation-studio-root { width: 100%; height: 100%; position: relative; }
+
+
+/* Utility: visually-hidden for ARIA live region */
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }

@@ -31,7 +31,8 @@ const defaultLayer = (): LayerConfig => ({
 /**
  * AnimationBuilder: editor visual con canvas preview, timeline clave y persistencia.
  */
-const AnimationBuilder: React.FC = () => {
+type BuilderProps = { mode?: 'overlay' | 'embedded' };
+const AnimationBuilder: React.FC<BuilderProps> = ({ mode = 'overlay' }) => {
   const [layers, setLayers] = useState<LayerConfig[]>([defaultLayer(), { ...defaultLayer(), label: 'Foreground', depth: 0.9, color: '#f1f5f9' }]);
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -55,8 +56,8 @@ const AnimationBuilder: React.FC = () => {
   const imagesRef = useRef<Record<string, HTMLImageElement | null>>({});
   const rafRef = useRef<number | null>(null);
   const playingRef = useRef(false);
-  const [editorTheme, setEditorTheme] = useState<'light'|'dark'>(()=>{
-    try { return (localStorage.getItem('animation-builder-theme') as 'light'|'dark') || 'light'; } catch { return 'light'; }
+  const [editorTheme, setEditorTheme] = useState<'light'|'dark'|'crimson'>(()=>{
+    try { return (localStorage.getItem('animation-builder-theme') as 'light'|'dark'|'crimson') || 'light'; } catch { return 'light'; }
   });
   const [liveMessage, setLiveMessage] = useState('');
   const [selectedKF, setSelectedKF] = useState<{layerId:string;kfId:string}|null>(null);
@@ -360,15 +361,25 @@ export default function ExportedAnimation({ width = 800, height = 400, autoplay 
     alert('React component copiado al portapapeles');
   };
 
+  const rootClass = mode === 'embedded'
+    ? `animation-studio-root ${editorTheme === 'crimson' ? 'editor-crimson' : ''}`
+    : `animation-builder fixed right-4 bottom-4 z-50 w-[min(920px,95vw)] max-h-[92vh] overflow-auto bg-white text-black rounded shadow-lg p-3 grid gap-3 ${editorTheme === 'crimson' ? 'editor-crimson' : ''}`;
+
   return (
-    <div className="animation-builder fixed right-4 bottom-4 z-50 w-[min(720px,95vw)] max-h-[90vh] overflow-auto bg-white text-black rounded shadow-lg p-3 grid gap-3" style={{ gridTemplateColumns: '1fr' }}>
+    <div className={rootClass} style={{ gridTemplateColumns: '1fr' }}>
       <div className="flex items-center gap-3">
         <h3 className="text-lg font-semibold">Animation Builder</h3>
         <div className={`ml-auto flex gap-2 items-center ${editorTheme==='dark' ? 'bg-slate-800 text-white p-2 rounded' : ''}`}>
           <label className="flex items-center gap-1 text-sm"><input type="checkbox" checked={previewAsScroll} onChange={e=>setPreviewAsScroll(e.target.checked)} /> Preview as scroll</label>
-          <button aria-pressed={editorTheme==='dark'} title="Cambiar tema del editor" className="px-2 py-1 bg-gray-100 rounded" onClick={()=>{ setEditorTheme(prev=> prev==='dark' ? 'light' : 'dark'); setLiveMessage('Tema del editor cambiado'); }}>
-            Tema: {editorTheme}
-          </button>
+          <label className="flex items-center gap-2">
+            <span className="text-sm">Tema</span>
+            <select aria-label="Selector de tema del editor" value={editorTheme} onChange={e=>{ const v = e.target.value as 'light'|'dark'|'crimson'; setEditorTheme(v); setLiveMessage(`Tema cambiado a ${v}`); }} className="p-1 border rounded bg-white text-sm">
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="crimson">Carmesí</option>
+            </select>
+          </label>
+          <button title="Abrir Studio" className="px-2 py-1 bg-indigo-600 text-white rounded" onClick={()=>{ window.dispatchEvent(new CustomEvent('open-animation-studio')); setLiveMessage('Abriendo editor completo'); }}>Abrir Studio</button>
           <button className="px-3 py-1 bg-blue-600 text-white rounded" onClick={play} disabled={playing}>Play</button>
           <button className="px-3 py-1 bg-gray-300 rounded" onClick={pause} disabled={!playing}>Pause</button>
           <button className="px-3 py-1 bg-red-500 text-white rounded" onClick={stop}>Stop</button>
