@@ -19,13 +19,17 @@ function App() {
           <br />
 
         </nav>
+        <div className="App h-screen w-screen overflow-hidden">
+
           <LetterGlitch glitchColors={ ['#2b4539', '#61dca3', '#61b3dc'] } glitchSpeed={50} centerVignette={true} outerVignette={false} smooth={true} characters='ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789'/>
-          <div>
+
+          <div className='absolute top-0 left-0 w-full h-full flex justify-center items-center'>
             <div className="bg-crimson w-full h-screen flex flex-col justify-center items-center">
               <TrueFocus sentence="Mi Primer Login" manualMode={false} blurAmount={5} borderColor="pink-500" animationDuration={0.4} pauseBetweenAnimations={1}/><br/>
               <p>Welcome to my first login web application built with React! xd</p>
             </div>
           </div>
+        </div>
         </>
         }
       </ThemeProvider>
