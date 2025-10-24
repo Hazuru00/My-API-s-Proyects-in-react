@@ -156,10 +156,73 @@
 }
 
 /* AnimationBuilder styles: compact defaults */
+/* AnimationBuilder styles: compact defaults, professional palette */
 .animation-builder { font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
 .animation-builder input[type="range"] { width: 100%; }
 .animation-builder input[type="color"] { padding: 0; height: 28px; }
 .animation-builder .relative > div { transition: transform .3s ease, opacity .2s ease; }
+
+/* Editor theme variants (isolated to .animation-builder / .animation-studio-root) */
+.editor-light { --ed-bg: #f3f6f9; --ed-surface: #ffffff; --ed-text: #0b1320; --ed-muted: #5b6b7a; --ed-accent: #2563eb; --ed-border: rgba(11,19,32,0.08); }
+.editor-dark { --ed-bg: #0b1220; --ed-surface: #0f1724; --ed-text: #e6eef8; --ed-muted: #9fb0c4; --ed-accent: #4f46e5; --ed-border: rgba(255,255,255,0.06); }
+.editor-crimson { --ed-bg: #12060a; --ed-surface: #1b0b0e; --ed-text: #fff2f4; --ed-muted: #d9aeb6; --ed-accent: #d43b5a; --ed-border: rgba(255,238,240,0.04); }
+
+.animation-builder, .animation-studio-root { background: var(--ed-surface); color: var(--ed-text); border: 1px solid var(--ed-border); }
+.animation-builder .panel, .animation-studio-root .panel { background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.03)); padding: 10px; border-radius: 8px; }
+.animation-builder .header { display:flex; align-items:center; gap:12px; padding-bottom:6px; border-bottom:1px solid rgba(255,255,255,0.02); }
+.animation-builder .header { position: sticky; top: 0; z-index: 30; background: linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.04)); padding: 8px 0; }
+.animation-builder .controls button { background: transparent; border: 1px solid rgba(255,255,255,0.04); color: var(--ed-text); padding:6px 8px; border-radius:6px; }
+.animation-builder .controls .ml-1 { display:flex; gap:6px; align-items:center; }
+.animation-builder .controls button.primary { background: var(--ed-accent); color: white; border: none; }
+.animation-builder .preview-container { background: #000; border-radius:8px; overflow:hidden; }
+.animation-builder input, .animation-builder select, .animation-builder textarea { background: transparent; color: var(--ed-text); border: 1px solid rgba(255,255,255,0.04); padding:6px; border-radius:6px; }
+.animation-builder button { color: var(--ed-text); }
+.animation-builder .preview-layer-overlay { background: rgba(255,255,255,0.04); color: var(--ed-text); border-color: rgba(255,255,255,0.06); }
+
+/* Global button system for a polished frontend look */
+button {
+  transition: all .12s ease;
+  font-weight: 600;
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 8px 12px; border-radius: 8px; border: 1px solid transparent;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+  color: var(--ed-text); box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(2,6,23,0.12); }
+.btn:active { transform: translateY(0); box-shadow: 0 2px 6px rgba(2,6,23,0.06); }
+.btn-primary { background: linear-gradient(180deg,var(--ed-accent), color-mix(in srgb, var(--ed-accent) 60%, black)); color: white; border: none; }
+.btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.04); }
+.btn-sm { padding: 6px 8px; border-radius: 6px; font-size: 0.85rem; }
+
+/* apply to existing controls inside animation builder to unify look */
+.animation-builder .controls button, .animation-builder .panel button { padding: 8px 10px; border-radius: 8px; }
+.animation-builder .controls button.primary { background: var(--ed-accent); color: white; border: none; }
+.animation-builder .controls .ml-1 { display:flex; gap:6px; align-items:center; }
+
+/* focus visible for keyboard users */
+.animation-builder [tabindex]:focus, .animation-builder button:focus, .animation-builder input:focus, .animation-builder select:focus { outline: 3px solid rgba(79,70,229,0.16); outline-offset: 2px; }
+
+/* timeline accessibility visuals */
+.timeline-track[role="region"] { padding:6px; }
+.timeline-keyframe[role="button"][aria-pressed="true"] { box-shadow: 0 0 0 4px rgba(79,70,229,0.12); }
+
+/* resizer between panels */
+.animation-builder .resizer { width: 8px; cursor: col-resize; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border-radius:4px; }
+.animation-builder .resizer:active { background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.04)); }
+
+/* Timeline ruler ticks */
+.animation-builder .timeline-ruler { position: relative; }
+.animation-builder .timeline-ruler .tick { position: absolute; top: 0; }
+.animation-builder .timeline-ruler .tick.minor { width: 1px; height: 60%; background: rgba(255,255,255,0.04); transform: translateY(20%); }
+.animation-builder .timeline-ruler .tick.major { width: 1px; height: 100%; display: flex; flex-direction: column; align-items: center; }
+.animation-builder .timeline-ruler .tick.major .tick-line { width: 1px; height: 72%; background: rgba(255,255,255,0.08); margin-top: 6px; }
+.animation-builder .timeline-ruler .tick.major .tick-label { margin-top: 0; margin-bottom: 0; font-size: 11px; color: rgba(255,255,255,0.7); position: absolute; top: -16px; left: -12px; }
+
+/* Scrubber styling */
+.animation-builder .timeline-scrubber { background: linear-gradient(180deg,#ff6b6b,#e11d48); box-shadow: 0 0 0 3px rgba(225,29,72,0.12); width: 6px !important; border-radius: 4px; }
+.animation-builder .timeline-scrubber::after { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 12px; height: 12px; background: #fff; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
 
 /* Crimson editor theme for a rosy/carmesí accent */
 .editor-crimson {

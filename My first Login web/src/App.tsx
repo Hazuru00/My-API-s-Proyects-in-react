@@ -14,7 +14,7 @@ import ParallaxSection from './components/ParallaxSection';
   //import { BeakerIcon } from '@heroicons/react/24/solid'
   // <BeakerIcon className=''/>
 function App() {
-  const [showStudio, setShowStudio] = React.useState(false);
+  const [showStudio, setShowStudio] = React.useState(true);
   React.useEffect(()=>{
     const onOpen = ()=> setShowStudio(true);
   const handler = ()=> onOpen();
@@ -29,9 +29,9 @@ function App() {
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       {
         <>
-          <nav className='absolute top-4 right-4 z-50 flex flex-col gap-2 items-end'>
+          <nav className='top-4 right-4 z-50 flex flex-col gap-2 items-start fixed p-2'>
 
-            <div className="bg-gray-800 p-2 rounded-md hover:bg-gray-700 ">
+            <div className='flex flex-row gap-2 items-center'>
               <ModeToggle/>
             </div>
 
