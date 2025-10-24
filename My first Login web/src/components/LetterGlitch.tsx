@@ -35,6 +35,10 @@ const LetterGlitch = ({
   const charWidth = 10;
   const charHeight = 20;
 
+  // progress used to drive the exit/fade/parallax effect (0 = normal, 1 = fully exited)
+  const progressRef = useRef(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
   const getRandomChar = () => {
     return lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)];
   };
@@ -118,6 +122,13 @@ const LetterGlitch = ({
     const ctx = context.current;
     const { width, height } = canvasRef.current!.getBoundingClientRect();
     ctx.clearRect(0, 0, width, height);
+    // apply parallax/fade based on progress
+    const progress = progressRef.current;
+    ctx.save();
+    // fade out letters as progress goes to 1
+    ctx.globalAlpha = 1 - progress;
+    // parallax translate (move letters slightly up while fading)
+    ctx.translate(0, -progress * 120);
     ctx.font = `${fontSize}px monospace`;
     ctx.textBaseline = 'top';
 
@@ -127,6 +138,8 @@ const LetterGlitch = ({
       ctx.fillStyle = letter.color;
       ctx.fillText(letter.char, x, y);
     });
+
+    ctx.restore();
   };
 
   const updateLetters = () => {
@@ -209,15 +222,35 @@ const LetterGlitch = ({
 
     window.addEventListener('resize', handleResize);
 
+    // wheel listener to drive exit progress (parallax-like using the wheel)
+    const onWheel = (e: WheelEvent) => {
+      // accumulate progress; scale to taste
+      const delta = e.deltaY * 0.0015;
+      const next = Math.min(1, Math.max(0, progressRef.current + delta));
+      if (next !== progressRef.current) {
+        progressRef.current = next;
+        // if fully exited, reduce pointer events (so user can interact with underlying content)
+        const container = containerRef.current;
+        if (container) {
+          container.style.setProperty('--glitch-progress', String(progressRef.current));
+          container.style.pointerEvents = progressRef.current >= 1 ? 'none' : 'auto';
+        }
+      }
+    };
+
+    const containerEl = containerRef.current || canvas.parentElement;
+    containerEl?.addEventListener('wheel', onWheel, { passive: true });
+
     return () => {
       cancelAnimationFrame(animationRef.current!);
       window.removeEventListener('resize', handleResize);
+      containerEl?.removeEventListener('wheel', onWheel as EventListener);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [glitchSpeed, smooth]);
 
   return (
-    <div className="relative w-full h-full bg-black overflow-hidden">
+    <div ref={containerRef} className="relative w-full h-full bg-black overflow-hidden glitch-container">
       <canvas ref={canvasRef} className="block w-full h-full" />
       {outerVignette && (
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none bg-[radial-gradient(circle,_rgba(0,0,0,0)_60%,_rgba(0,0,0,1)_100%)]"></div>

@@ -121,3 +121,42 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Elementos que no deben seguir el tema global: clase para forzar colores neutrales */
+.theme-locked {
+  /* fondo transparente por defecto; puedes fijar un color si lo prefieres */
+  background: transparent !important;
+  color: #ffffff !important;
+}
+.theme-locked * {
+  color: inherit !important;
+}
+
+/* Contenedor del LetterGlitch: permite un progreso (0-1) para fade/parallax
+   --glitch-progress será actualizado desde JS (valor entre 0 y 1). */
+.glitch-container {
+  --glitch-progress: 0;
+  transition: opacity .35s ease, transform .45s ease;
+  opacity: calc(1 - var(--glitch-progress));
+  transform: translateY(calc(var(--glitch-progress) * -80px));
+  will-change: opacity, transform;
+}
+
+/* Parallax demo helpers */
+.parallax-bg {
+  background-image: radial-gradient(ellipse at center, rgba(97,220,163,0.06), rgba(0,0,0,0.6)), linear-gradient(180deg, rgba(43,69,57,0.2), rgba(6,10,14,0.6));
+  background-size: cover;
+  background-position: center calc(50% + (var(--parallax-progress, 0) * 40px));
+  filter: blur(6px) saturate(0.9);
+}
+
+.parallax-layer {
+  transition: transform .45s ease, opacity .35s ease;
+  will-change: transform, opacity;
+}
+
+/* AnimationBuilder styles: compact defaults */
+.animation-builder { font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+.animation-builder input[type="range"] { width: 100%; }
+.animation-builder input[type="color"] { padding: 0; height: 28px; }
+.animation-builder .relative > div { transition: transform .3s ease, opacity .2s ease; }
